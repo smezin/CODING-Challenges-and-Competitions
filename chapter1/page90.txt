@@ -1,0 +1,16 @@
+#Is Unique: Implement an algorithm to determine if a string has all unique characters. What if you
+#cannot use additional data structures?
+
+def is_unique(str):
+    if (len(str)>26):   
+        return False
+    letters="abcdefghijklmnopqrstwvxyz"
+    visited = [0]*len(letters)
+    for c in str:
+        if visited[str.index(c.lower())] == 1:
+            return False
+        visited[str.index(c.lower())] = 1
+    return True
+
+print(is_unique('abZcdefzwqr')) #false (z)
+print(is_unique('abcdefzwqr')) #true
