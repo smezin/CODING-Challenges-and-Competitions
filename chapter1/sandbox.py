@@ -1,11 +1,6 @@
-for i in range(10, 4, -1):
-    print(i)
+from re import sub
 
-print('i',i)
 
-x =[]
-
-a=[0,1,2,3]
-print(a[:0])
-print(a[0:])
-print(7//2)
+#Flatanning list of lists
+NESTED = [[1,2],[3,4,5,6],[7],[8,8]]
+flat = [n for sublist in NESTED for n in sublist]

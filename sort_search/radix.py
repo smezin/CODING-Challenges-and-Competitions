@@ -23,8 +23,7 @@ def count_sort_ints(array, by_digit):
         output[count[d(array[k], by_digit)]-1] = array[k]
         count[d(array[k], by_digit)] -= 1
     
-    array = output[:]
-    return array
+    return output
 
 def d (num, digit):
     d = num//10**(digit-1)
