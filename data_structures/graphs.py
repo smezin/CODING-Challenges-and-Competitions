@@ -1,8 +1,12 @@
-class Graph:
-    def __init__(self, vertice):
-        self.root = vertice
+from typing import Tuple
 
-class Vertice:
-    def __init__(self, value):
+class Node:
+    def __init__(self, value: Tuple[int, int]):
         self.value = value
-        self.children = []
+        self.next = None
+    
+class DirectedGraph:
+    def __init__(self, node):
+        self.root = node
+    
+    

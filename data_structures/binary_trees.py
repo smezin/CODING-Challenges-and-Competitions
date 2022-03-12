@@ -1,4 +1,7 @@
 class Node:
+    """
+    tree node of bin tree
+    """
     def __init__(self, val):
         self.l = None
         self.r = None
@@ -90,5 +93,5 @@ tree = Tree()
 tree_builder(tree, [30,20,50,70,60,10,25,80])
 
 #tree.printTree('pre')
-#tree.printTree('in')
+tree.printTree('in')
 tree.printTree('post')

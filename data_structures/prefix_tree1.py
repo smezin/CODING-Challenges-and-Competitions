@@ -16,7 +16,7 @@ class Trie:
     def search (self, word: str) -> bool:
         current_dict = self.root
         for ch in word:
-            if ch not in current_dict.keys():
+            if ch not in current_dict:
                 return False
             current_dict = current_dict[ch]
         return END_OF_WORD in current_dict
@@ -30,7 +30,7 @@ class Trie:
             else:
                 words.append('')
         return words
-    
+
     def list_starts_with(self, prefix: str) -> List[str]:
         current_dict = self.root
         for ch in prefix:
@@ -43,7 +43,9 @@ class Trie:
 trie =Trie()
 trie.insert('abc', 'ab', 'abcde', 'xy', 'wxy', 'xyz')
 print('all:', trie.list_words(trie.root))
-print('srch->', trie.search('abcde'))
+
+search_item = 'abcx'
+print(f'word: {search_item} is {"in" if trie.search(search_item) else "not in"} trie')
 prefix = 'x'
 print(f'starts with-> {prefix}: {trie.list_starts_with(prefix)}')
 
