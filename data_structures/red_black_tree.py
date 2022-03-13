@@ -7,7 +7,6 @@ class RBNode:
         self.parent = None
         self.right = None
         self.left = None
-        #self.data = None
 
     def __str__(self):
         return str(self.value)
@@ -22,15 +21,9 @@ class RBNode:
         return uncle.is_black
 
     def is_parent_left_child(self) -> bool:
-        """
-        return indication if current node is left child of it's parent
-        """
         return self.parent.left is self
     
     def is_parent_right_child(self) -> bool:
-        """
-        return indication if current node is left child of it's parent
-        """
         return not self.is_parent_left_child()
 
 class RBTree:
@@ -44,7 +37,7 @@ class RBTree:
         return self.root
     
     def insert_one(self, value: int) -> None:
-        if not self.root:
+        if self.root is None:
             self.root = RBNode(value)
         else:
             self._insert_one(self.root, value)
@@ -54,14 +47,18 @@ class RBTree:
         for value in values:
             self.insert_one(value)
 
-    def search (self, value: int) -> RBNode:
-        return self._search(value, self.root)
+    def search (self, value: int, subtree_root: RBNode = None) -> RBNode:
+        if subtree_root is None:
+            subtree_root = self.root
+        return self._search(value, subtree_root, 1)
 
     def rotate_left(self, value: int) -> None: 
         """
         param value: indicates the value of the node to rotate around
         """
         pivot = self.search(value)
+        if pivot is None:
+            return
         new_top = pivot.right
         pivot.right = new_top.left
         if new_top.left:
@@ -81,6 +78,8 @@ class RBTree:
         param value: indicates the value of the node to rotate around
         """
         pivot = self.search(value)              #rotating around the pivot (current subtree top)
+        if pivot is None:
+            return
         new_top = pivot.left                    #rotating right, hence the new top is the old top left child
         pivot.left = new_top.right              #fixing edge 1
         if new_top.right:                       
@@ -88,7 +87,7 @@ class RBTree:
         new_top.parent = pivot.parent
         if pivot.parent is None:
             self.root = new_top
-        elif pivot.is_parent_right_child():       #if pivot is it's parent right child
+        elif pivot.is_parent_right_child():     #if pivot is it's parent right child
             pivot.parent.right = new_top
         else:
             pivot.parent.left = new_top
@@ -111,14 +110,14 @@ class RBTree:
                 new_node.parent = node
                 node.left = new_node
 
-    def _search (self, value: int, node: RBNode) -> RBNode:
+    def _search (self, value: int, node: RBNode, i: int = 0) -> RBNode:
         """
         param value: value to be searched
         param node: RBNode to begin search. can be root to search whole tree or node for searching subtree
         output param: the node with the value if found, None otherwise
         """
-        if not node: 
-            return False
+        if node is None or value is None: 
+            return 
         elif node.value == value:
             return node
         elif value > node.value:
@@ -127,12 +126,48 @@ class RBTree:
             return self._search(value, node.left)
     
     def in_order_travers(self) -> List[int]:
-        if not self.root:
+        if self.root is None:
             return None
         node_values = []
         self._in_order_travers(self.root, node_values)
         return node_values
     
+    def delete(self, value: int, subtree_root: RBNode = None) -> None:
+        if subtree_root is None:
+            subtree_root = self.root
+        node = self.search(value, subtree_root)
+        #sanity check
+        if node is None:
+            return
+        if subtree_root is None:
+            subtree_root = self.root
+        #case 1: no children
+        if node.right is None and node.left is None:
+            if node is self.root:
+                self.root = None
+            if node.is_parent_left_child():
+                node.parent.left = None         #gc will clean it up
+            elif node.is_parent_right_child():
+                node.parent.right = None
+        #case 2: single child
+        if node.right is None and node.left is not None:
+            node = node.left
+        elif node.left is None and node.right is not None:
+            node = node.right
+        #case 3: two children
+        if node.left is not None and node.right is not None:
+            min_value_node = self.min_child(node.right.value)
+            node.value = min_value_node.value
+            self.delete(min_value_node.value, node.right)
+        
+    def min_child(self, value):
+        node = self.search(value)
+        if node is None:
+            return
+        while node.left is not None:
+            node = node.left
+        return node
+
     def _in_order_travers(self, node: RBNode, node_values):
         if node:
             self._in_order_travers(node.left, node_values)
@@ -151,8 +186,10 @@ rb.insert_many([4,2,6,1,3,5,7])
 
 #print(rb.search(4))
 print(rb.in_order_travers())
-rb.rotate_left(4)
-rb.rotate_right(6)
+#rb.rotate_left(4)
+#print(rb.min_child(4))
+#rb.rotate_right(6)
+rb.delete(4)
 print(rb.in_order_travers())
 
 
