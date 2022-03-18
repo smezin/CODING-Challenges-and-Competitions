@@ -15,10 +15,12 @@ class ListContainer:
     def insert(self, i):
         self.list.append(i)
 
+# x = 16
+# print((x ^ (x - 1)).bit_length() - 1)
+# print([i for i in range (5)])
 
-l = ListContainer()
-print (l.size)
-l.insert(1)
-print (l.size)
-
-print(ord('a'), ord('z'))
+nums = [1,1]
+arr = [i for i in range(1, len(nums)+1)]
+for num in nums:
+    arr[num-1] = None
+print ([j for j in arr if j is not None])

@@ -11,7 +11,17 @@ def _fibonacci (i, memo, m=[]):
         fibs.append(memo[i])
     return memo[i]
 
+
+def fib(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b
+
 if __name__ == '__main__':
     m = fibonacci(16)
     print(m)
     print(fibs)
+    fib_list = fib(1000)
+    for n in fib_list:
+        print(n)

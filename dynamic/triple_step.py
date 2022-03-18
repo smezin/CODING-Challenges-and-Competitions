@@ -1,4 +1,4 @@
-N = 16
+N = 12
 calls = 0
 def steping_perms (n):
     global calls
@@ -9,8 +9,8 @@ def steping_perms (n):
         return 1
     return steping_perms(n-1)+steping_perms(n-2)+steping_perms(n-3)
     
-print('perms:', steping_perms(N))
-print ('calls:',calls)
+# print('perms:', steping_perms(N))
+# print ('calls:',calls)
 calls = 0
 print('-'*16)
 def get_perms(n):
@@ -31,4 +31,3 @@ def _get_perms(n, memo):
 
 print('perms:', get_perms(N))
 print ('calls:',calls)
-

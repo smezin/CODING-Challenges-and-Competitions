@@ -51,7 +51,7 @@ class RBTree:
         for value in values:
             self.insert_one(value)
 
-    def search (self, value: int, subtree_root: RBNode = None) -> RBNode:
+    def search(self, value: int, subtree_root: RBNode = None) -> RBNode:
         if subtree_root is None:
             subtree_root = self.root
         return self._search(value, subtree_root)
@@ -91,7 +91,7 @@ class RBTree:
             node.value = min_value_node.value
             self.delete(min_value_node.value, node.right)
         
-    def _min_child(self, value: int):
+    def _min_child(self, value: int) -> RBNode:
         node = self.search(value)
         if node is None:
             return
