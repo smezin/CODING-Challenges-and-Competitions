@@ -37,7 +37,6 @@ class HashTable:
     
     def insert (self, key, value):
         hashed_key = self.hash(key)
-        print(f'inserted key {key} to hash:{hashed_key}')
         last = self.last_node(hashed_key)
         if last is None:
             self.buckets[hashed_key] = Node(key, value)

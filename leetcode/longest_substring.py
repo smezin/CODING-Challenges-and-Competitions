@@ -1,21 +1,35 @@
-class Solution(object):
-    def lengthOfLongestSubstring(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        letters = {}
-        sub_size = 0
-        start_index = 0
-        for i in range(len(s)):
-            if s[i] in letters:
-                start_index = max(start_index, letters[s[i]] + 1)
-            sub_size = max(sub_size, i - start_index + 1)
-            letters[s[i]] = i
-            
-        print(letters)
-        return sub_size
+from collections import defaultdict
+class Solution:
+    def lengthOfLongestSubstringTwoDistinct(self, s: 'str') -> 'int':
+        n = len(s)
+        if n < 3:
+            return n
 
+        # sliding window left and right pointers
+        left, right = 0, 0
+        # hashmap character -> its rightmost position
+        # in the sliding window
+        hashmap = defaultdict()
+
+        max_len = 2
+
+        while right < n:
+            # when the slidewindow contains less than 3 characters
+            hashmap[s[right]] = right
+            right += 1
+            print(hashmap)
+            # slidewindow contains 3 characters
+            if len(hashmap) == 3:
+                # delete the leftmost character
+                del_idx = min(hashmap.values())
+                print('del idx:', del_idx, 's[del_idx]', s[del_idx])
+                del hashmap[s[del_idx]]
+                # move left pointer of the slidewindow
+                left = del_idx + 1
+
+            max_len = max(max_len, right - left)
+
+        return max_len
 s = Solution()
-res = s.lengthOfLongestSubstring('dvdf')
+res = s.lengthOfLongestSubstringTwoDistinct('ccaabbb')
 print(res)
