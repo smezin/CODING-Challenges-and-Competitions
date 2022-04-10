@@ -1,4 +1,7 @@
 
+from collections import defaultdict
+
+
 ALPHABET_SIZE = ord('z')-ord('a') + 1
 OFFSET = ord('a')
 class Node:
@@ -37,7 +40,21 @@ class PrefixTree:
         return node.is_end_of_word
 
     def print_words(self):
-        pass
+        words = []
+        visited = defaultdict(bool)
+        def dfs(node, word):
+            for child in node.children:
+                if child is None or visited[child]:
+                    continue
+                word.append(child.value)
+                if child.is_end_of_word:
+                    words.append(''.join(word))
+                    return
+                else:
+                    dfs(child, word)
+                    word = word[:]
+            return words
+        print(dfs(self.root, []))
 
     def dfs(self, node):
         for i in range(ALPHABET_SIZE):
@@ -48,9 +65,9 @@ class PrefixTree:
 
             
 pt = PrefixTree()
-pt.insert('abcea')
-pt.insert('abdz')
+pt.insert('abc')
+pt.insert('pop')
 print('srch->', pt.search('abdz'))
 print('srch->', pt.search('abdaz'))
 
-pt.dfs(pt.root)
+pt.print_words()

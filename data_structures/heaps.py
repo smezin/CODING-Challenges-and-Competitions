@@ -54,9 +54,7 @@ class MaxHeap:
     def swap(self, i, j):
         if i >= len(self.heap) or j >= len(self.heap):
             return False
-        self.heap[i] = self.heap[i] ^ self.heap[j]
-        self.heap[j] = self.heap[j] ^ self.heap[i]  # h[j] = h[i]
-        self.heap[i] = self.heap[i] ^ self.heap[j]  # h[i] = h[j]
+        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]  
         return True
 
     def insert(self, item):
